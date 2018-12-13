@@ -1,0 +1,75 @@
+{
+  "name": "@dccs/react-datagrid-mui",
+  "version": "0.0.1",
+  "description": "A light datagrid build upon react-table-plain for React in a Material-UI theme.",
+  "main": "lib/index.js",
+  "scripts": {
+    "watch": "tsc --watch",
+    "build": "run-s lint test transpile",
+    "transpile": "tsc",
+    "lint": "tslint ./src/**/*.ts*",
+    "test": "jest --runInBand --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DCCS-IT-Business-Solutions/react-datagrid-mui.git"
+  },
+  "keywords": [
+    "npm",
+    "node",
+    "react",
+    "table",
+    "sorting",
+    "filter",
+    "paging",
+    "javascrip",
+    "typescript"
+  ],
+  "author": "Stephan Meißner",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DCCS-IT-Business-Solutions/react-datagrid-mui/issues"
+  },
+  "homepage": "https://github.com/DCCS-IT-Business-Solutions/react-datagrid-mui#readme",
+  "dependencies": {
+    "@dccs/react-table-mui": "^0.0.7",
+    "@dccs/react-table-plain": "^0.0.10",
+    "@material-ui/core": "^3.6.2",
+    "@material-ui/icons": "^3.0.1",
+    "@types/styled-components": "^4.1.4",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
+    "styled-components": "^4.1.2"
+  },
+  "peerDependencies": {
+    "react-table-mui": "^0.0.6"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "transform": {
+      "^.+\\.(ts|tsx)$": "<rootDir>/preprocessor.js"
+    },
+    "testMatch": [
+      "**/__tests__/**/*.ts?(x)",
+      "c**/?(*.)(spec|test).ts?(x)"
+    ],
+    "setupTestFrameworkScriptFile": "<rootDir>/setupTests.js"
+  },
+  "devDependencies": {
+    "@types/jest": "^23.3.9",
+    "@types/react": "^16.7.13",
+    "@types/react-dom": "^16.0.11",
+    "enzyme": "^3.8.0",
+    "enzyme-adapter-react-16": "^1.7.1",
+    "jest": "^23.6.0",
+    "npm-run-all": "^4.1.5",
+    "tslint": "^5.11.0",
+    "tslint-config-prettier": "^1.17.0",
+    "tslint-react": "^3.6.0",
+    "typescript": "^3.1.6"
+  }
+}
