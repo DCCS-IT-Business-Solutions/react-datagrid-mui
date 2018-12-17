@@ -37,6 +37,12 @@ Here is an example:
 />
 ```
 
+[![Edit react-datagrid-mui simple](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/qlwk15q7vq)
+
+&nbsp;or with sorting&nbsp;
+
+[![Edit react-datagrid-mui sortable](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/o9no9k4mzq)
+
 Inside the `onLoadData` you can use whatever Http library you want. That way it is possible to append i.e. authorization tokens, custom http headers, ...
 
 `onLoadData` can provide data from every source. Server, client, rest, GraphQL, ... react-datagrid-mui does not care.
