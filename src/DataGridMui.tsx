@@ -1,6 +1,7 @@
 import * as React from "react";
 import styled from "styled-components";
-import { TableMui } from "@dccs/react-table-mui";
+import { TablePlain } from "@dccs/react-table-plain";
+import { tableMuiTheme } from "@dccs/react-table-mui";
 import { IColDef } from "@dccs/react-table-plain";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Paper from "@material-ui/core/Paper";
@@ -70,7 +71,8 @@ export class DataGridMui extends React.Component<IProps, IState> {
           </ProgressWrapper>
         )}
 
-        <TableMui
+        <TablePlain
+          {...tableMuiTheme}
           data={this.state.data}
           colDef={this.props.colDef}
           orderedBy={this.state.orderBy}

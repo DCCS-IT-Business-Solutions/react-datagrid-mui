@@ -32,8 +32,8 @@
   },
   "homepage": "https://github.com/DCCS-IT-Business-Solutions/react-datagrid-mui#readme",
   "dependencies": {
-    "@dccs/react-table-mui": "^0.0.7",
-    "@dccs/react-table-plain": "^0.0.10",
+    "@dccs/react-table-mui": "1.0.0",
+    "@dccs/react-table-plain": "0.3.0",
     "@material-ui/core": "^3.6.2",
     "@material-ui/icons": "^3.0.1",
     "@types/styled-components": "^4.1.4",
