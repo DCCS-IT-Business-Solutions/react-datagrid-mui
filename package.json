@@ -32,8 +32,8 @@
   },
   "homepage": "https://github.com/DCCS-IT-Business-Solutions/react-datagrid-mui#readme",
   "dependencies": {
-    "@dccs/react-table-mui": "^1.0.0",
-    "@dccs/react-table-plain": "^0.3.0",
+    "@dccs/react-table-mui": "^1.0.2",
+    "@dccs/react-table-plain": "^0.3.1",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.12.1",
     "jest": "^24.7.1"
@@ -55,6 +55,8 @@
     "tslint-config-prettier": "^1.18.0",
     "tslint-react": "^3.6.0",
     "typescript": "^3.4.5",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
     "@material-ui/core": "3.9.3",
     "@material-ui/icons": "3.0.2"
   },
