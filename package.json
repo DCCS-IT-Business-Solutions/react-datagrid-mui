@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "watch": "tsc --watch",
-    "build": "run-s lint test transpile",
+    "build": "run-s lint transpile",
     "transpile": "tsc",
     "lint": "tslint ./src/**/*.ts*",
     "test": "jest --runInBand --coverage"
@@ -32,17 +32,31 @@
   },
   "homepage": "https://github.com/DCCS-IT-Business-Solutions/react-datagrid-mui#readme",
   "dependencies": {
-    "@dccs/react-table-mui": "1.0.0",
-    "@dccs/react-table-plain": "0.3.0",
-    "@material-ui/core": "^3.6.2",
-    "@material-ui/icons": "^3.0.1",
-    "@types/styled-components": "^4.1.4",
-    "react": "^16.6.3",
-    "react-dom": "^16.6.3",
-    "styled-components": "^4.1.2"
+    "@dccs/react-table-mui": "^1.0.0",
+    "@dccs/react-table-plain": "^0.3.0",
+    "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.12.1",
+    "jest": "^24.7.1"
   },
   "peerDependencies": {
-    "react-table-mui": "^0.0.6"
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "@material-ui/core": "3.9.3",
+    "@material-ui/icons": "3.0.2"
+  },
+  "devDependencies": {
+    "@types/jest": "^23.3.14",
+    "@types/react": "16.8.10",
+    "@types/react-dom": "16.8.3",
+    "@types/styled-components": "^4.1.14",
+    "styled-components": "^4.2.0",
+    "npm-run-all": "^4.1.5",
+    "tslint": "^5.16.0",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-react": "^3.6.0",
+    "typescript": "^3.4.5",
+    "@material-ui/core": "3.9.3",
+    "@material-ui/icons": "3.0.2"
   },
   "jest": {
     "moduleFileExtensions": [
@@ -58,18 +72,5 @@
       "c**/?(*.)(spec|test).ts?(x)"
     ],
     "setupTestFrameworkScriptFile": "<rootDir>/setupTests.js"
-  },
-  "devDependencies": {
-    "@types/jest": "^23.3.9",
-    "@types/react": "^16.7.13",
-    "@types/react-dom": "^16.0.11",
-    "enzyme": "^3.8.0",
-    "enzyme-adapter-react-16": "^1.7.1",
-    "jest": "^23.6.0",
-    "npm-run-all": "^4.1.5",
-    "tslint": "^5.11.0",
-    "tslint-config-prettier": "^1.17.0",
-    "tslint-react": "^3.6.0",
-    "typescript": "^3.1.6"
   }
 }
