@@ -26,7 +26,7 @@ function serializeFilter(filter: { [key: string]: any }) {
   let query = "";
   // tslint:disable-next-line:forin
   for (const x in filter) {
-    if (x != null) {
+    if (filter[x] != null) {
       query += `&${x}=${filter[x]}`;
     }
   }
