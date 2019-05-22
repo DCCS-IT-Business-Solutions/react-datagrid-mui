@@ -8,28 +8,27 @@ export const createSource = (
   desc: boolean,
   filter?: { [key: string]: any }
 ) => {
-    const urlSep = url.indexOf("?") === -1 ? "?" : "&";
-    const p = new Promise<{ total: number; data: any[] }>((res, rej) => {
-      get(
-        `${url}${urlSep}page=${page}&count=${rowsPerPage}&orderBy=${orderBy}&desc=${desc}${serializeFilter(
-          filter || {}
-        )}`
-      )
-        .then(resp => res({ data: resp.data, total: resp.total }))
-        .catch(rej);
-    });
+  const urlSep = url.indexOf("?") === -1 ? "?" : "&";
+  const p = new Promise<{ total: number; data: any[] }>((res, rej) => {
+    get(
+      `${url}${urlSep}page=${page}&count=${rowsPerPage}&orderBy=${orderBy}&desc=${desc}${serializeFilter(
+        filter || {}
+      )}`
+    )
+      .then(resp => res({ data: resp.data, total: resp.total }))
+      .catch(rej);
+  });
 
-    return p;
-  };
+  return p;
+};
 
 function serializeFilter(filter: { [key: string]: any }) {
   let query = "";
   // tslint:disable-next-line:forin
   for (const x in filter) {
     if (x != null) {
-      query += `&${x}=${filter[x]}`;
+      query += `&${x}=${encodeURIComponent(filter[x])}`;
     }
   }
-
   return query;
 }
