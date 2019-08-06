@@ -197,7 +197,7 @@ export function DataGridMui(props: IProps) {
   function handleChangeOrderBy(colDef: IColDef) {
     let desc = false;
 
-    if (state.orderBy === colDef) {
+    if (state.orderBy && state.orderBy.prop === colDef.prop) {
       desc = !state.desc;
     }
 
