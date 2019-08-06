@@ -5,10 +5,12 @@
   "main": "lib/index.js",
   "scripts": {
     "watch": "tsc --watch",
-    "build": "run-s lint transpile",
+    "build": "npm-run-all -s lint transpile",
     "transpile": "tsc",
     "lint": "tslint ./src/**/*.ts*",
-    "test": "jest --runInBand --coverage"
+    "test": "jest --runInBand --coverage",
+    "storybook": "start-storybook -p 6006 -c .storybook",
+    "build-storybook": "build-storybook"
   },
   "repository": {
     "type": "git",
@@ -32,33 +34,45 @@
   },
   "homepage": "https://github.com/DCCS-IT-Business-Solutions/react-datagrid-mui#readme",
   "dependencies": {
-    "@dccs/react-table-mui": "^1.0.2",
-    "@dccs/react-table-plain": "^0.3.1",
-    "enzyme": "^3.9.0",
-    "enzyme-adapter-react-16": "^1.12.1",
-    "jest": "^24.7.1"
+    "@types/storybook__react": "^4.0.2"
   },
   "peerDependencies": {
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "@material-ui/core": "3.9.3",
-    "@material-ui/icons": "3.0.2"
+    "@material-ui/core": "4.3.1",
+    "@material-ui/icons": "4.2.1",
+    "@dccs/react-table-mui": "^1.0.2",
+    "@dccs/react-table-plain": "^0.4.4"
   },
   "devDependencies": {
-    "@types/jest": "^23.3.14",
-    "@types/react": "16.8.10",
-    "@types/react-dom": "16.8.3",
-    "@types/styled-components": "^4.1.14",
-    "styled-components": "^4.2.0",
+    "@babel/core": "^7.5.5",
+    "@dccs/react-table-mui": "^1.0.2",
+    "@dccs/react-table-plain": "^0.4.4",
+    "@material-ui/core": "4.3.1",
+    "@material-ui/icons": "4.2.1",
+    "@storybook/addon-actions": "^5.1.10",
+    "@storybook/addon-links": "^5.1.10",
+    "@storybook/addons": "^5.1.10",
+    "@storybook/react": "^5.1.10",
+    "@types/jest": "^24.0.16",
+    "@types/react": "16.8.24",
+    "@types/react-dom": "16.8.5",
+    "@types/styled-components": "^4.1.18",
+    "awesome-typescript-loader": "^5.2.1",
+    "react-docgen-typescript-loader": "^3.1.0",
+    "react-docgen-typescript-webpack-plugin": "^1.1.0",
+    "babel-loader": "^8.0.6",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.14.0",
+    "jest": "^24.8.0",
     "npm-run-all": "^4.1.5",
-    "tslint": "^5.16.0",
-    "tslint-config-prettier": "^1.18.0",
-    "tslint-react": "^3.6.0",
-    "typescript": "^3.4.5",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "@material-ui/core": "3.9.3",
-    "@material-ui/icons": "3.0.2"
+    "styled-components": "^4.3.2",
+    "tslint": "^5.18.0",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-react": "^4.0.0",
+    "typescript": "^3.5.3"
   },
   "jest": {
     "moduleFileExtensions": [
