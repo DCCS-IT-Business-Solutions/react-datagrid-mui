@@ -33,9 +33,7 @@
     "url": "https://github.com/DCCS-IT-Business-Solutions/react-datagrid-mui/issues"
   },
   "homepage": "https://github.com/DCCS-IT-Business-Solutions/react-datagrid-mui#readme",
-  "dependencies": {
-    "@types/storybook__react": "^4.0.2"
-  },
+  "dependencies": {},
   "peerDependencies": {
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
@@ -54,6 +52,7 @@
     "@storybook/addon-links": "^5.1.10",
     "@storybook/addons": "^5.1.10",
     "@storybook/react": "^5.1.10",
+    "@types/storybook__react": "^4.0.2",
     "@types/jest": "^24.0.16",
     "@types/react": "16.8.24",
     "@types/react-dom": "16.8.5",
@@ -87,6 +86,8 @@
       "**/__tests__/**/*.ts?(x)",
       "c**/?(*.)(spec|test).ts?(x)"
     ],
-    "setupTestFrameworkScriptFile": "<rootDir>/setupTests.js"
+    "setupFilesAfterEnv": [
+      "<rootDir>/setupTests.js"
+    ]
   }
 }
