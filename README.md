@@ -53,9 +53,40 @@ react-datagrid-mui keeps the state of the table (current page, number of display
 
 But that also means that react-datagrid-mui triggers any (re-)load of the data itself. If you want to reload the datagrid from outside you must grap the datagrid instance with a `ref` and call `load()` on it.
 
-Example:
+Example Version 2:
 
 ```javascript
+import { DataGridPlain } from "@dccs/react-datagrid-plain";
+import { datagridMuiTheme } from "@dccs/react-datagrid-mui";
+
+class Example extends React.Component {
+  datagrid = null;
+
+  render() {
+    return (
+      <React.Fragment>
+        <DataGridPlain
+          {...datagridMuiTheme}
+          colDef={[
+            { prop: "id", header: "Id" },
+            { prop: "display_name", header: "Full name", sortable: true }
+          ]}
+          onLoadData={createLoader(url)}
+          ref={r => (this.datagrid = r)}
+        />
+
+        <button onClick={() => this.datagrid.load()}>Reload</button>
+      </React.Fragment>
+    );
+  }
+}
+```
+
+Example version 1:
+
+```javascript
+import { DataGridMui } from "@dccs/react-datagrid-mui";
+
 class Example extends React.Component {
   datagrid = null;
 
@@ -77,3 +108,8 @@ class Example extends React.Component {
   }
 }
 ```
+
+## Changes in Version 2
+
+Version 2 introduced the [react-datagrid-plain](https://www.npmjs.com/package/@dccs/react-table-plain) component. It host all the necessary functionality for paging, etc.
+This package is just to theme the react-datagrid-plain component. So the usage changed.
