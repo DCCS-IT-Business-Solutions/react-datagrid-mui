@@ -33,7 +33,9 @@
     "url": "https://github.com/DCCS-IT-Business-Solutions/react-datagrid-mui/issues"
   },
   "homepage": "https://github.com/DCCS-IT-Business-Solutions/react-datagrid-mui#readme",
-  "dependencies": {},
+  "dependencies": {
+    "@dccs/react-datagrid-plain": "^1.0.3"
+  },
   "peerDependencies": {
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
@@ -53,8 +55,8 @@
     "@storybook/addons": "^5.1.10",
     "@storybook/react": "^5.1.10",
     "@types/storybook__react": "^4.0.2",
-    "@types/jest": "^24.0.16",
-    "@types/react": "16.8.24",
+    "@types/jest": "^24.0.17",
+    "@types/react": "16.8.25",
     "@types/react-dom": "16.8.5",
     "@types/styled-components": "^4.1.18",
     "awesome-typescript-loader": "^5.2.1",

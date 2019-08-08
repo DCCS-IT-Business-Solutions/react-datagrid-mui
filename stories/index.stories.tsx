@@ -2,7 +2,8 @@ import * as React from "react";
 
 import { storiesOf } from "@storybook/react";
 
-import { DataGridMui } from "../src/DataGridMui";
+import { DataGridPlain } from "@dccs/react-datagrid-plain";
+import { datagridMuiTheme } from "../src/DataGridMui";
 
 const sampleData1 = [
   { name: "A", number: 1 },
@@ -20,7 +21,8 @@ const sampleData1 = [
 ];
 
 storiesOf("DataGridMui", module).add("simple", () => (
-  <DataGridMui
+  <DataGridPlain
+    {...datagridMuiTheme}
     colDef={[
       { prop: "name", header: "Name" },
       { prop: "number", header: "Zahl" }
