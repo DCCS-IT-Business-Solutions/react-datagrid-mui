@@ -12,7 +12,7 @@ import ErrorIcon from "@material-ui/icons/Error";
 function renderError(load: any) {
   return (
     <SnackbarContent
-      style={{ width: "100%" }}
+      style={{ width: "100%", boxSizing: "border-box" }}
       message={
         <ErrorMessage>
           <ErrorIcon /> Die Daten konnten nicht geladen werden.
