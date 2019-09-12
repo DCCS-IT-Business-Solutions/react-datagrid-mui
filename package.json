@@ -10,7 +10,8 @@
     "lint": "tslint ./src/**/*.ts*",
     "test": "jest --runInBand --coverage",
     "storybook": "start-storybook -p 6006 -c .storybook",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "db": "json-server --watch db/db.json -p 5000"
   },
   "repository": {
     "type": "git",
@@ -33,21 +34,20 @@
     "url": "https://github.com/DCCS-IT-Business-Solutions/react-datagrid-mui/issues"
   },
   "homepage": "https://github.com/DCCS-IT-Business-Solutions/react-datagrid-mui#readme",
-  "dependencies": {
-    "@dccs/react-datagrid-plain": "^1.0.3"
-  },
+  "dependencies": {},
   "peerDependencies": {
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "@material-ui/core": "4.3.1",
     "@material-ui/icons": "4.2.1",
     "@dccs/react-table-mui": "^1.0.2",
-    "@dccs/react-table-plain": "^0.4.4"
+    "@dccs/react-datagrid-plain": "^2.0.0-alpha.0"
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",
     "@dccs/react-table-mui": "^1.0.2",
-    "@dccs/react-table-plain": "^0.4.4",
+    "@dccs/react-table-plain": "^0.6.3",
+    "@dccs/react-datagrid-plain": "^2.0.0-alpha.0",
     "@material-ui/core": "4.3.1",
     "@material-ui/icons": "4.2.1",
     "@storybook/addon-actions": "^5.1.10",

@@ -2,7 +2,10 @@ import * as React from "react";
 
 import { storiesOf } from "@storybook/react";
 
-import { DataGridPlain } from "@dccs/react-datagrid-plain";
+import {
+  DataGridPlain,
+  createJsonServerSource
+} from "@dccs/react-datagrid-plain";
 import { datagridMuiTheme } from "../src/DataGridMui";
 
 const sampleData1 = [
@@ -20,15 +23,31 @@ const sampleData1 = [
   { name: "L", number: 12 }
 ];
 
-storiesOf("DataGridMui", module).add("simple", () => (
-  <DataGridPlain
-    {...datagridMuiTheme}
-    colDef={[
-      { prop: "name", header: "Name" },
-      { prop: "number", header: "Zahl" }
-    ]}
-    onLoadData={() =>
-      new Promise(res => res({ total: sampleData1.length, data: sampleData1 }))
-    }
-  />
-));
+storiesOf("DataGridMui", module)
+  .add("simple", () => (
+    <DataGridPlain
+      {...datagridMuiTheme}
+      colDef={[
+        { prop: "name", header: "Name" },
+        { prop: "number", header: "Zahl" }
+      ]}
+      onLoadData={() =>
+        new Promise(res =>
+          res({ total: sampleData1.length, data: sampleData1 })
+        )
+      }
+    />
+  ))
+  .add("from json-server", () => (
+    <DataGridPlain
+      {...datagridMuiTheme}
+      colDef={[
+        { prop: "name", header: "Name" },
+        { prop: "number", header: "Zahl" }
+      ]}
+      onLoadData={createJsonServerSource(
+        url => fetch(url).then(r => r.json()),
+        "http://localhost:5000/dummies"
+      )}
+    />
+  ));

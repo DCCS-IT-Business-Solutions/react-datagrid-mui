@@ -1,6 +1,6 @@
 import * as React from "react";
 import styled from "styled-components";
-import { TablePlain, IProps as ITableProps } from "@dccs/react-table-plain";
+import { TablePlain, ITablePlainProps } from "@dccs/react-table-plain";
 import { tableMuiTheme } from "@dccs/react-table-mui";
 import { IRenderPagingProps } from "@dccs/react-datagrid-plain";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -28,7 +28,9 @@ function renderError(load: any) {
 }
 
 export const datagridMuiTheme = {
-  renderTable: (ps: ITableProps) => <TablePlain {...tableMuiTheme} {...ps} />,
+  renderTable: (ps: ITablePlainProps) => (
+    <TablePlain {...tableMuiTheme} {...ps} />
+  ),
   renderLoading: () => (
     <ProgressWrapper>
       <CircularProgress />
