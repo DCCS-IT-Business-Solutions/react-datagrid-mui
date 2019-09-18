@@ -1,6 +1,6 @@
 {
   "name": "@dccs/react-datagrid-mui",
-  "version": "2.0.3",
+  "version": "2.1.0-alpha.1",
   "description": "A light datagrid build upon react-table-plain for React in a Material-UI theme.",
   "main": "lib/index.js",
   "scripts": {
