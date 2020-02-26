@@ -1,7 +1,7 @@
 import * as React from "react";
 import { TablePlain, ITablePlainProps } from "@dccs/react-table-plain";
 import { tableMuiTheme } from "@dccs/react-table-mui";
-import { IRenderPagingProps } from "@dccs/react-datagrid-plain";
+// import { IRenderPagingProps } from "@dccs/react-datagrid-plain";
 import {
   CircularProgress,
   TablePagination,
