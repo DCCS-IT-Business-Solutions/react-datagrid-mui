@@ -30,18 +30,19 @@ const errorMessage = {
   }
 } as React.CSSProperties;
 
-function renderError(load: any) {
+function renderError(load: any, errorText?: string, reloadText?: string) {
   return (
     <SnackbarContent
       style={{ width: "100%", boxSizing: "border-box" }}
       message={
         <div style={errorMessage}>
-          <ErrorIcon /> Die Daten konnten nicht geladen werden.
+          <ErrorIcon />{" "}
+          {errorText != null || "Die Daten konnten nicht geladen werden."}
         </div>
       }
       action={
         <Button onClick={() => load()} color="primary" size="small">
-          Neu laden
+          {reloadText != null || "Neu laden"}
         </Button>
       }
     />
@@ -62,20 +63,31 @@ export const datagridMuiTheme = {
     total,
     rowsPerPage,
     page,
+    labelRowsPerPage,
+    backIconButtonText,
+    nextIconButtonText,
+    labelDisplayedRows,
     handleChangePage,
     handleChangeRowsPerPage
-  }: IRenderPagingProps) => (
-    <TablePagination
-      component={ps => <div {...ps}>{ps.children}</div>}
-      count={total}
-      rowsPerPage={rowsPerPage}
-      page={page}
-      onChangePage={(e, p) => handleChangePage(p)}
-      onChangeRowsPerPage={e =>
-        handleChangeRowsPerPage(parseInt(e.target.value, 10))
-      }
-      labelRowsPerPage={"Einträge pro Seite:"}
-      labelDisplayedRows={({ from, to, count }) => `${from}-${to} von ${count}`}
-    />
-  )
+  }: any) => {
+    const defaultLabelDisplayedRows = ({ from, to, count }: any) =>
+      `${from}-${to} von ${count}`;
+
+    return (
+      <TablePagination
+        component={ps => <div {...ps}>{ps.children}</div>}
+        count={total}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onChangePage={(e, p) => handleChangePage(p)}
+        onChangeRowsPerPage={e =>
+          handleChangeRowsPerPage(parseInt(e.target.value, 10))
+        }
+        labelRowsPerPage={labelRowsPerPage || "Einträge pro Seite:"}
+        labelDisplayedRows={labelDisplayedRows || defaultLabelDisplayedRows}
+        backIconButtonText={backIconButtonText || "Previous  page"}
+        nextIconButtonText={nextIconButtonText || "Next  page"}
+      />
+    );
+  }
 };
