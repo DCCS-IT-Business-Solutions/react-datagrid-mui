@@ -31,18 +31,18 @@ const errorMessage = {
 } as React.CSSProperties;
 
 function renderError(load: any, errorText?: string, reloadText?: string) {
+  debugger;
   return (
     <SnackbarContent
       style={{ width: "100%", boxSizing: "border-box" }}
       message={
         <div style={errorMessage}>
-          <ErrorIcon />{" "}
-          {errorText != null || "Die Daten konnten nicht geladen werden."}
+          <ErrorIcon /> {errorText || "Die Daten konnten nicht geladen werden."}
         </div>
       }
       action={
         <Button onClick={() => load()} color="primary" size="small">
-          {reloadText != null || "Neu laden"}
+          {reloadText || "Neu laden"}
         </Button>
       }
     />

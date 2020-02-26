@@ -27,6 +27,9 @@ storiesOf("DataGridMui", module)
   .add("simple", () => (
     <DataGridPlain
       {...datagridMuiTheme}
+      texts={{
+        errorText: "ERRORY"
+      }}
       colDef={[
         { prop: "name", header: "Name" },
         { prop: "number", header: "Zahl" }
