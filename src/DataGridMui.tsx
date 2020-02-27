@@ -31,7 +31,6 @@ const errorMessage = {
 } as React.CSSProperties;
 
 function renderError(load: any, errorText?: string, reloadText?: string) {
-  debugger;
   return (
     <SnackbarContent
       style={{ width: "100%", boxSizing: "border-box" }}
