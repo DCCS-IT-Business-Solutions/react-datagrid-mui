@@ -6,7 +6,7 @@ import {
   CircularProgress,
   TablePagination,
   SnackbarContent,
-  Button
+  Button, TableSortLabel
 } from "@material-ui/core";
 import ErrorIcon from "@material-ui/icons/Error";
 
@@ -30,6 +30,10 @@ const errorMessage = {
   }
 } as React.CSSProperties;
 
+const renderSortHint = {
+  opacity: 0.2,
+} as React.CSSProperties;
+
 function renderError(load: any, errorText?: string, reloadText?: string) {
   return (
     <SnackbarContent
@@ -50,7 +54,7 @@ function renderError(load: any, errorText?: string, reloadText?: string) {
 
 export const datagridMuiTheme = {
   renderTable: (ps: ITablePlainProps) => (
-    <TablePlain {...tableMuiTheme} {...ps} />
+    <TablePlain {...tableMuiTheme} renderSortHint={() => <TableSortLabel active style={renderSortHint}/> } {...ps} />
   ),
   renderLoading: () => (
     <div style={progressWrapper}>

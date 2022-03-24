@@ -40,6 +40,22 @@ storiesOf("DataGridMui", module)
         )
       }
     />
+  )).add("sorting", () => (
+    <DataGridPlain
+      {...datagridMuiTheme}
+      texts={{
+        errorText: "ERRORY"
+      }}
+      colDef={[
+        { sortable: true, prop: "name", header: "Name" },
+        { sortable: true, prop: "number", header: "Zahl" }
+      ]}
+      onLoadData={() =>
+        new Promise(res =>
+          res({ total: sampleData1.length, data: sampleData1 })
+        )
+      }
+    />
   ))
   .add("from json-server", () => (
     <DataGridPlain
