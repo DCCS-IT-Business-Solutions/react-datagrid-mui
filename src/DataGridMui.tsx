@@ -1,101 +1,20 @@
-import * as React from "react";
 import {
-  TablePlain,
-  IColDef,
-  ITablePlainProps as ITableProps,
-  SortDirection,
-} from "@dccs/react-table-plain";
-import { IState } from "./IState";
-import { IDataState, IUseDataStateProps, useDataState } from "./useDataState";
+  TableMui,
+} from "@dccs/react-table-mui";
+import TablePagination from '@mui/material/TablePagination';
+import { useDataState } from "./useDataState";
+import { IDataGridWithExternalStateProps, IDataGridWithInternalStateProps } from "./Props";
+import { TableSortLabel } from "@mui/material";
+import { CircularProgress } from "@mui/material";
+import { SnackbarContent } from "@mui/material";
+import { Button } from "@mui/material";
+import ErrorIcon from "@mui/icons-material/Error";
 
-export type OnLoadData = (
-  page: number,
-  rowsPerPage: number,
-  orderBy: string | undefined,
-  sort: SortDirection | undefined,
-  filter: { [key: string]: any } | undefined
-) => Promise<{ total: number; data: any[] }>;
 
-export interface IRenderPagingProps extends IState {
-  backIconButtonText?: string;
-  nextIconButtonText?: string;
-  labelRowsPerPage?: string;
-  // Example labelDisplayedRows={({ from, to, count }) => `${from}-${to} von ${count}`}
-  labelDisplayedRows?: ({
-    count,
-    from,
-    to,
-  }: {
-    count?: number;
-    from?: number;
-    to?: number;
-  }) => string;
-  handleChangePage: (page: number) => void;
-  handleChangeRowsPerPage: (rows: number) => void;
-}
-export interface IDataGridTexts {
-  errorText?: string;
-  loadingText?: string;
-  pagingText?: string;
-  reloadText?: string;
-  backIconButtonText?: string;
-  nextIconButtonText?: string;
-  labelRowsPerPage?: string;
-  labelDisplayedRows?: ({
-    count,
-    from,
-    to,
-  }: {
-    count?: number;
-    from?: number;
-    to?: number;
-  }) => string;
-}
-
-export interface IDataGridWithExternalStateProps extends IDataGridProps {
-  state?: IDataState;
-}
-
-export interface IDataGridWithInternalStateProps
-  extends IDataGridProps,
-    IUseDataStateProps {}
-
-export interface IDataGridProps {
-  texts?: IDataGridTexts;
-  colDef: IColDef[];
-  disablePaging?: boolean;
-  tableTheme?: any;
-  onRowClick?: (data: any) => void;
-  subComponent?: (data: any) => React.ReactNode;
-  renderTable?: (ps: ITableProps) => React.ReactElement;
-  renderLoading?: () => React.ReactElement;
-  renderError?: (
-    load: () => void,
-    errorText?: string,
-    reloadText?: string
-  ) => React.ReactElement;
-  renderPaging?: (props: IRenderPagingProps) => React.ReactElement;
-  renderHeaderCell?: (col: IColDef, idx: number) => React.ReactNode;
-  renderFooterCell?: (
-    col: IColDef,
-    data: any[],
-    idx: number
-  ) => React.ReactNode;
-  renderFilter?: (col: IColDef, idx: number) => React.ReactNode;
-  renderExpansionIndicator?: (expanded: boolean) => React.ReactNode;
-  rowProps?: (data: any) => object;
-  cellProps?: (data: any) => object;
-  ellipsis?: boolean;
-  selectedRow?: any | any[];
-  onChangeSelectedRow?: (data: any) => void;
-  selectedRowProps?: (data: any) => object;
-  rowSelectionColumnName?: string;
-}
-
-export function DataGridPlain(
-  props: IDataGridWithInternalStateProps | IDataGridWithExternalStateProps
+export function DataGridMui<T>(
+  props: IDataGridWithInternalStateProps<T> | IDataGridWithExternalStateProps<T>
 ) {
-  const internalState = useDataState(props as IDataGridWithInternalStateProps);
+  const internalState = useDataState(props as IDataGridWithInternalStateProps<T>);
 
   const {
     rowsPerPage,
@@ -112,15 +31,15 @@ export function DataGridPlain(
     handleChangeRowsPerPage,
     handleChangePage,
     load,
-  } = (props as IDataGridWithExternalStateProps).state || internalState;
+  } = (props as IDataGridWithExternalStateProps<T>).state || internalState;
 
   function renderTable() {
     const ps = {
       data,
       colDef: props.colDef,
-      orderBy: orderBy,
-      sort: sort,
-      filter: filter,
+      orderBy,
+      sort,
+      filter,
       onChangeOrderBy: handleChangeOrderBy,
       onChangeFilter: handleChangeFilter,
       onRowClick: props.onRowClick,
@@ -137,10 +56,11 @@ export function DataGridPlain(
       cellProps: props.cellProps,
       ellipsis: props.ellipsis,
     };
-    if (props.renderTable != null) {
-      return props.renderTable(ps);
-    }
-    return <TablePlain {...ps} />;
+
+    return <TableMui
+      {...ps}
+      renderSortHint={() => <TableSortLabel active style={renderSortHint} />}
+    />
   }
 
   function renderLoading() {
@@ -148,12 +68,9 @@ export function DataGridPlain(
       return props.renderLoading();
     }
 
-    let loadingText = "Loading...";
-    if (props.texts && props.texts.loadingText != null) {
-      loadingText = props.texts.loadingText;
-    }
-
-    return <h5>{loadingText}</h5>;
+    return <div style={styles.progressWrapper}>
+      <CircularProgress />
+    </div>
   }
 
   function renderError() {
@@ -171,21 +88,30 @@ export function DataGridPlain(
       return props.renderError(load, errorText, reloadText);
     }
     return (
-      <p style={{ width: "100%", background: "red", padding: 16 }}>
-        <p>{errorText}</p>
-        <p>
-          <button onClick={() => load()}>{reloadText}</button>
-        </p>
-      </p>
+      <SnackbarContent
+        style={{ width: "100%", boxSizing: "border-box" }}
+        message={
+          <div style={styles.errorMessage}>
+            <ErrorIcon /> {errorText || "Die Daten konnten nicht geladen werden."}
+          </div>
+        }
+        action={
+          <Button onClick={() => load()} color="primary" size="small">
+            {reloadText || "Neu laden"}
+          </Button>
+        }
+      />
     );
   }
 
   function renderPaging() {
+    const labelRowsPerPage = props.texts && props.texts.labelRowsPerPage;
+    const backIconButtonText = props.texts && props.texts.backIconButtonText;
+    const nextIconButtonText = props.texts && props.texts.nextIconButtonText;
+    const labelDisplayedRows = props.texts && props.texts.labelDisplayedRows;
+
+    // Custom rendering
     if (props.renderPaging != null) {
-      const labelRowsPerPage = props.texts && props.texts.labelRowsPerPage;
-      const backIconButtonText = props.texts && props.texts.backIconButtonText;
-      const nextIconButtonText = props.texts && props.texts.nextIconButtonText;
-      const labelDisplayedRows = props.texts && props.texts.labelDisplayedRows;
 
       return props.renderPaging({
         rowsPerPage,
@@ -194,20 +120,42 @@ export function DataGridPlain(
         orderBy,
         sort,
         filter,
-        labelRowsPerPage: labelRowsPerPage,
-        backIconButtonText: backIconButtonText,
-        nextIconButtonText: nextIconButtonText,
-        labelDisplayedRows: labelDisplayedRows,
+        labelRowsPerPage,
+        backIconButtonText,
+        nextIconButtonText,
+        labelDisplayedRows,
         handleChangePage,
         handleChangeRowsPerPage,
       });
     }
-    let pagingText = "No paging available right now. Check back later...";
-    if (props.texts && props.texts.pagingText != null) {
-      pagingText = props.texts.pagingText;
-    }
 
-    return <strong>{pagingText}</strong>;
+    const defaultLabelDisplayedRows = ({ from, to, count }: any) =>
+      `${from}-${to} von ${count}`;
+
+    const handlePageChange = (
+      event: React.MouseEvent<HTMLButtonElement> | null,
+      newPage: number,
+    ) => handleChangePage(newPage);
+
+    const handleCRPP = (
+      e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    ) => handleChangeRowsPerPage(parseInt(e.target.value, 10));
+
+
+    return (
+      <TablePagination
+        component={(ps: any) => <div {...ps}>{ps.children}</div>}
+        count={total}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handlePageChange}
+        onChangeRowsPerPage={handleCRPP}
+        labelRowsPerPage={labelRowsPerPage || "Einträge pro Seite:"}
+        labelDisplayedRows={labelDisplayedRows || defaultLabelDisplayedRows}
+        backIconButtonText={backIconButtonText || "Previous  page"}
+        nextIconButtonText={nextIconButtonText || "Next  page"}
+      />
+    );
   }
 
   if (error) {
@@ -223,4 +171,28 @@ export function DataGridPlain(
       {props.disablePaging !== true && renderPaging()}
     </div>
   );
+}
+const renderSortHint = {
+  opacity: 0.2,
+} as React.CSSProperties;
+
+const styles = {
+  progressWrapper: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    background: "rgba(255, 255, 255, 0.5)"
+  } as React.CSSProperties,
+  errorMessage: {
+    display: "flex",
+    alignItems: "center",
+    svg: {
+      marginRight: "0.5rem"
+    }
+  } as React.CSSProperties
 }

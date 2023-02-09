@@ -1,4 +1,4 @@
-import { SortDirection } from "@dccs/react-table-plain";
+import { SortDirection } from "@dccs/react-table-mui";
 
 export const createSource = (
   get: (url: string) => Promise<any>,
