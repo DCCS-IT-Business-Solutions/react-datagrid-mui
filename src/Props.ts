@@ -16,12 +16,12 @@ export type IDataGridProps<T> = Omit<ITableMuiProps<T>, "data"> & {
   renderPaging?: (props: IRenderPagingProps) => React.ReactElement;
 }
 export interface IDataGridWithExternalStateProps<T> extends IDataGridProps<T> {
-  state?: IDataState;
+  state?: IDataState<T>;
 }
 
 export interface IDataGridWithInternalStateProps<T>
   extends IDataGridProps<T>,
-    IUseDataStateProps {}
+    IUseDataStateProps<T> {}
 
 export interface IRenderPagingProps extends IState {
     

@@ -3,7 +3,7 @@ import { SortDirection } from "@dccs/react-table-mui";
 import { OnLoadData } from ".";
 import { IState } from "./IState";
 
-export interface IDataState extends IState {
+export interface IDataState<T> extends IState {
   setTotal: (total: number) => void;
   setPage: (page: number) => void;
   setRowsPerPage: (rpp: number) => void;
@@ -14,7 +14,7 @@ export interface IDataState extends IState {
   setAllowLoad: React.Dispatch<React.SetStateAction<boolean>>;
   error: boolean;
   loading: boolean;
-  data: any[];
+  data: T[];
   reload: () => void;
   handleChangePage(p: number): void;
   handleChangeRowsPerPage(rows: number): void;
@@ -32,8 +32,8 @@ export interface IPersistState {
   uniqueID: string;
 }
 
-export interface IUseDataStateProps {
-  onLoadData: OnLoadData;
+export interface IUseDataStateProps<T> {
+  onLoadData: OnLoadData<T>;
   initialRowsPerPage?: number;
   initialOrderBy?: string;
   initialSort?: SortDirection;
@@ -43,19 +43,19 @@ export interface IUseDataStateProps {
   persistState?: IPersistState;
 }
 
-const getStateFromStore = (props?: IUseDataStateProps) => {
+function getStateFromStore<T>(props?: IUseDataStateProps<T>) {
   if (props && props.persistState && props.persistState.uniqueID) {
     if (props.persistState.store === "localStorage") {
       const state = localStorage.getItem(props.persistState.uniqueID);
 
       if (state) {
-        return JSON.parse(state) as IDataState;
+        return JSON.parse(state) as IDataState<T>;
       }
     } else if (props.persistState.store === "sessionStorage") {
       const state = sessionStorage.getItem(props.persistState.uniqueID);
 
       if (state) {
-        return JSON.parse(state) as IDataState;
+        return JSON.parse(state) as IDataState<T>;
       }
     }
   }
@@ -63,7 +63,7 @@ const getStateFromStore = (props?: IUseDataStateProps) => {
   return undefined;
 };
 
-export function useDataState(props: IUseDataStateProps) {
+export function useDataState<T>(props: IUseDataStateProps<T>) {
   const stateFromStore = getStateFromStore(props);
 
   const [rowsPerPage, _setRowsPerPage] = React.useState(
@@ -93,7 +93,7 @@ export function useDataState(props: IUseDataStateProps) {
     props && props.initialLoad === false ? false : true
   );
 
-  const [data, setData] = React.useState<any[]>([]);
+  const [data, setData] = React.useState<T[]>([]);
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(false);
 
@@ -170,7 +170,7 @@ export function useDataState(props: IUseDataStateProps) {
     }
   }
 
-  const state: IDataState = {
+  const state: IDataState<T> = {
     rowsPerPage,
     setRowsPerPage,
     page,

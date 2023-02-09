@@ -14,7 +14,7 @@ import ErrorIcon from "@mui/icons-material/Error";
 export function DataGridMui<T>(
   props: IDataGridWithInternalStateProps<T> | IDataGridWithExternalStateProps<T>
 ) {
-  const internalState = useDataState(props as IDataGridWithInternalStateProps<T>);
+  const internalState = useDataState<T>(props as IDataGridWithInternalStateProps<T>);
 
   const {
     rowsPerPage,
