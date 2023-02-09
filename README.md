@@ -1,6 +1,6 @@
 # react-datagrid-mui &middot; ![travis build](https://img.shields.io/travis/DCCS-IT-Business-Solutions/react-datagrid-mui.svg) ![npm version](https://img.shields.io/npm/v/@dccs/react-datagrid-mui.svg)
 
-A light datagrid build upon react-table-mui for React, themed with [Material-UI](https://material-ui.com/).
+A light datagrid build upon react-table-mui for React, themed with [Material-UI](https://mui.com).
 
 ## Installation
 
@@ -23,7 +23,26 @@ react-datagrid-mui is designed to do all the paging and sorting for you. You onl
 
 Here is an example:
 
-### Version 2
+### Version 4
+With Version 4 we merged react-datagrid-plain into react-datagrid-plain. Now there is only a MUI datagrid; no need to theme anymore.
+
+```javascript
+import { DataGridMui } from "@dccs/react-datagrid-mui";
+
+<DataGridPlain
+  colDef={[
+    { prop: "id", header: "Id" },
+    { prop: "display_name", header: "Full name", sortable: true }
+  ]}
+  onLoadData={(page, rowsPerPage, orderBy, desc) =>
+    fetch(url /* with querystring params */)
+      .then(resp => resp.json())
+      .then(resp => ({ data: resp.data, total: resp.total }))
+  }
+/>;
+```
+
+### Version 2+
 
 ```javascript
 import { DataGridPlain } from "@dccs/react-datagrid-plain";
