@@ -1,9 +1,9 @@
 import * as React from "react";
 import { SortDirection } from "@dccs/react-table-mui";
 import { OnLoadData } from ".";
-import { IState } from "./IState";
+import { IParams } from "./IParams";
 
-export interface IDataState<T> extends IState {
+export interface IDataState<T> extends IParams {
   setTotal: (total: number) => void;
   setPage: (page: number) => void;
   setRowsPerPage: (rpp: number) => void;

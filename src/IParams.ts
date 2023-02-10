@@ -1,6 +1,6 @@
 import { SortDirection } from "@dccs/react-table-mui";
 
-export interface IState {
+export interface IParams {
   rowsPerPage: number;
   page: number;
   total: number;

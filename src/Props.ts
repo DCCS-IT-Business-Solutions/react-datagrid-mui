@@ -1,7 +1,7 @@
 import { ITableMuiProps } from "@dccs/react-table-mui/lib/Props";
 import { IDataState, IUseDataStateProps } from ".";
 import { IDataGridTexts } from "./IDataGridTexts";
-import { IState } from "./IState";
+import { IParams } from "./IParams";
 
 // Take everything from the base TableMuiProps and modify it a little bit.
 export type IDataGridProps<T> = Omit<ITableMuiProps<T>, "data"> & {
@@ -23,7 +23,7 @@ export interface IDataGridWithInternalStateProps<T>
   extends IDataGridProps<T>,
     IUseDataStateProps<T> {}
 
-export interface IRenderPagingProps extends IState {
+export interface IRenderPagingProps extends IParams {
     
   backIconButtonText?: string;
   nextIconButtonText?: string;
