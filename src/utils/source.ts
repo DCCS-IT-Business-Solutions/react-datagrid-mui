@@ -1,56 +1,64 @@
 import { SortDirection } from "@dccs/react-table-mui";
 
-export const createSource = (
-  get: (url: string) => Promise<any>,
-  url: string
-) => (
-  page: number,
-  rowsPerPage: number,
-  orderBy: string | undefined,
-  sort: SortDirection | undefined,
-  filter?: { [key: string]: any }
-) => {
-  const urlSep = url.indexOf("?") === -1 ? "?" : "&";
-  const p = new Promise<{ total: number; data: any[] }>((res, rej) => {
-    get(
-      `${url}${urlSep}page=${page}&count=${rowsPerPage}${
-        orderBy != null ? "&orderBy=" + orderBy : ""
-      }${sort != null ? "&desc=" + (sort === "desc") : ""}${serializeFilter(
-        filter || {}
-      )}`
-    )
-      .then(resp => res({ data: resp.data, total: resp.total }))
-      .catch(rej);
-  });
+interface IDataSourceResponse<T> {
+  total: number;
+  data: T[];
+}
 
-  return p;
-};
-
-export const createJsonServerSource = (
-  get: (url: string) => Promise<any>,
+export function createSource<T>(
+  get: (url: string) => Promise<IDataSourceResponse<T>>,
   url: string
-) => (
-  page: number,
-  rowsPerPage: number,
-  orderBy: string | undefined,
-  sort: SortDirection | undefined,
-  filter?: { [key: string]: any }
-) => {
-  const urlSep = url.indexOf("?") === -1 ? "?" : "&";
-  const p = new Promise<{ total: number; data: any[] }>((res, rej) => {
-    get(
-      `${url}${urlSep}_page=${page}&_limit=${rowsPerPage}&{
+) {
+  return (
+    page: number,
+    rowsPerPage: number,
+    orderBy: string | undefined,
+    sort: SortDirection | undefined,
+    filter?: { [key: string]: any }
+  ) => {
+    const urlSep = url.indexOf("?") === -1 ? "?" : "&";
+    const p = new Promise<IDataSourceResponse<T>>((res, rej) => {
+      get(
+        `${url}${urlSep}page=${page}&count=${rowsPerPage}${orderBy != null ? "&orderBy=" + orderBy : ""
+        }${sort != null ? "&desc=" + (sort === "desc") : ""}${serializeFilter(
+          filter || {}
+        )}`
+      )
+        .then(res)
+        .catch(rej);
+    });
+
+    return p;
+  };
+}
+
+export function createJsonServerSource<T>(
+  get: (url: string) => Promise<T[]>,
+  url: string
+) {
+  return (
+    page: number,
+    rowsPerPage: number,
+    orderBy: string | undefined,
+    sort: SortDirection | undefined,
+    filter?: { [key: string]: any }
+  ) => {
+    const urlSep = url.indexOf("?") === -1 ? "?" : "&";
+    const p = new Promise<IDataSourceResponse<T>>((res, rej) => {
+      get(
+        `${url}${urlSep}_page=${page}&_limit=${rowsPerPage}&{
         orderBy != null ? "_sort=" + orderBy : ""
       }
       }${sort != null ? "&_order=" + sort : ""}
       ${serializeFilter(filter || {})}`
-    )
-      .then(resp => res({ data: resp, total: resp.length }))
-      .catch(rej);
-  });
+      )
+        .then(resp => res({ data: resp, total: resp.length }))
+        .catch(rej);
+    });
 
-  return p;
-};
+    return p;
+  };
+}
 
 export function serializeFilter(filter: { [key: string]: any }) {
   let query = "";

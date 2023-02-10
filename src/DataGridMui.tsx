@@ -9,12 +9,13 @@ import { CircularProgress } from "@mui/material";
 import { SnackbarContent } from "@mui/material";
 import { Button } from "@mui/material";
 import ErrorIcon from "@mui/icons-material/Error";
+import { ITableMuiProps } from "@dccs/react-table-mui/lib/Props";
 
 
 export function DataGridMui<T>(
   props: IDataGridWithInternalStateProps<T> | IDataGridWithExternalStateProps<T>
 ) {
-  const internalState = useDataState(props as IDataGridWithInternalStateProps<T>);
+  const internalState = useDataState<T>(props as IDataGridWithInternalStateProps<T>);
 
   const {
     rowsPerPage,
@@ -34,7 +35,7 @@ export function DataGridMui<T>(
   } = (props as IDataGridWithExternalStateProps<T>).state || internalState;
 
   function renderTable() {
-    const ps = {
+    const ps: ITableMuiProps<T> = {
       data,
       colDef: props.colDef,
       orderBy,
@@ -149,11 +150,9 @@ export function DataGridMui<T>(
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handlePageChange}
-        onChangeRowsPerPage={handleCRPP}
+        onRowsPerPageChange={handleCRPP}
         labelRowsPerPage={labelRowsPerPage || "Einträge pro Seite:"}
         labelDisplayedRows={labelDisplayedRows || defaultLabelDisplayedRows}
-        backIconButtonText={backIconButtonText || "Previous  page"}
-        nextIconButtonText={nextIconButtonText || "Next  page"}
       />
     );
   }

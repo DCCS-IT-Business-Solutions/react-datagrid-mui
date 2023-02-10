@@ -1,25 +1,26 @@
 import * as React from "react";
 import { SortDirection } from "@dccs/react-table-mui";
 import { OnLoadData } from ".";
-import { IState } from "./IState";
+import { IParams } from "./IParams";
+import { PropType } from "@dccs/react-table-mui/lib/IColDef";
 
-export interface IDataState extends IState {
+export interface IDataState<T> extends IParams<T> {
   setTotal: (total: number) => void;
   setPage: (page: number) => void;
   setRowsPerPage: (rpp: number) => void;
-  setOrderBy: (orderBy: string) => void;
+  setOrderBy: (orderBy: PropType<T>) => void;
   setSort: (sort: SortDirection | undefined) => void;
   setFilter: (filter: { [key: string]: any } | undefined) => void;
   allowLoad: boolean;
   setAllowLoad: React.Dispatch<React.SetStateAction<boolean>>;
   error: boolean;
   loading: boolean;
-  data: any[];
+  data: T[];
   reload: () => void;
   handleChangePage(p: number): void;
   handleChangeRowsPerPage(rows: number): void;
-  handleChangeOrderBy(ob: string): void;
-  handleChangeFilter(ob: string, value: any): void;
+  handleChangeOrderBy(ob: PropType<T>): void;
+  handleChangeFilter(ob: PropType<T>, value: any): void;
   load(): void;
   // Vorerst noch nicht von außen änderbar
   // setLoading: React.Dispatch<React.SetStateAction<boolean>>;
@@ -32,10 +33,10 @@ export interface IPersistState {
   uniqueID: string;
 }
 
-export interface IUseDataStateProps {
-  onLoadData: OnLoadData;
+export interface IUseDataStateProps<T> {
+  onLoadData: OnLoadData<T>;
   initialRowsPerPage?: number;
-  initialOrderBy?: string;
+  initialOrderBy?: PropType<T>;
   initialSort?: SortDirection;
   initialLoad?: boolean;
   initialPage?: number;
@@ -43,19 +44,19 @@ export interface IUseDataStateProps {
   persistState?: IPersistState;
 }
 
-const getStateFromStore = (props?: IUseDataStateProps) => {
+function getStateFromStore<T>(props?: IUseDataStateProps<T>) {
   if (props && props.persistState && props.persistState.uniqueID) {
     if (props.persistState.store === "localStorage") {
       const state = localStorage.getItem(props.persistState.uniqueID);
 
       if (state) {
-        return JSON.parse(state) as IDataState;
+        return JSON.parse(state) as IDataState<T>;
       }
     } else if (props.persistState.store === "sessionStorage") {
       const state = sessionStorage.getItem(props.persistState.uniqueID);
 
       if (state) {
-        return JSON.parse(state) as IDataState;
+        return JSON.parse(state) as IDataState<T>;
       }
     }
   }
@@ -63,7 +64,7 @@ const getStateFromStore = (props?: IUseDataStateProps) => {
   return undefined;
 };
 
-export function useDataState(props: IUseDataStateProps) {
+export function useDataState<T>(props: IUseDataStateProps<T>) {
   const stateFromStore = getStateFromStore(props);
 
   const [rowsPerPage, _setRowsPerPage] = React.useState(
@@ -77,7 +78,7 @@ export function useDataState(props: IUseDataStateProps) {
   const [total, setTotal] = React.useState(
     (stateFromStore && stateFromStore.total) || 0
   );
-  const [orderBy, setOrderBy] = React.useState(
+  const [orderBy, setOrderBy] = React.useState<PropType<T> | undefined>(
     (stateFromStore && stateFromStore.orderBy) ||
       (props && props.initialOrderBy)
   );
@@ -93,7 +94,7 @@ export function useDataState(props: IUseDataStateProps) {
     props && props.initialLoad === false ? false : true
   );
 
-  const [data, setData] = React.useState<any[]>([]);
+  const [data, setData] = React.useState<T[]>([]);
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(false);
 
@@ -111,7 +112,7 @@ export function useDataState(props: IUseDataStateProps) {
     setRowsPerPage(rows);
   }
 
-  function handleChangeOrderBy(ob: string) {
+  function handleChangeOrderBy(ob: PropType<T>) {
     let s: SortDirection | undefined;
 
     if (orderBy && orderBy === ob) {
@@ -122,7 +123,7 @@ export function useDataState(props: IUseDataStateProps) {
     setSort(s);
   }
 
-  function handleChangeFilter(ob: string, value: any) {
+  function handleChangeFilter(ob: PropType<T>, value: any) {
     setFilter({ ...filter, [ob]: value });
   }
 
@@ -170,7 +171,7 @@ export function useDataState(props: IUseDataStateProps) {
     }
   }
 
-  const state: IDataState = {
+  const state: IDataState<T> = {
     rowsPerPage,
     setRowsPerPage,
     page,
