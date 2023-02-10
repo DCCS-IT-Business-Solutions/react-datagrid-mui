@@ -149,11 +149,9 @@ export function DataGridMui<T>(
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handlePageChange}
-        onChangeRowsPerPage={handleCRPP}
+        onRowsPerPageChange={handleCRPP}
         labelRowsPerPage={labelRowsPerPage || "Einträge pro Seite:"}
         labelDisplayedRows={labelDisplayedRows || defaultLabelDisplayedRows}
-        backIconButtonText={backIconButtonText || "Previous  page"}
-        nextIconButtonText={nextIconButtonText || "Next  page"}
       />
     );
   }
