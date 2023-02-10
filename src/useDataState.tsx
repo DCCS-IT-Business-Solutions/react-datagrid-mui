@@ -2,12 +2,13 @@ import * as React from "react";
 import { SortDirection } from "@dccs/react-table-mui";
 import { OnLoadData } from ".";
 import { IParams } from "./IParams";
+import { PropType } from "@dccs/react-table-mui/lib/IColDef";
 
-export interface IDataState<T> extends IParams {
+export interface IDataState<T> extends IParams<T> {
   setTotal: (total: number) => void;
   setPage: (page: number) => void;
   setRowsPerPage: (rpp: number) => void;
-  setOrderBy: (orderBy: string) => void;
+  setOrderBy: (orderBy: PropType<T>) => void;
   setSort: (sort: SortDirection | undefined) => void;
   setFilter: (filter: { [key: string]: any } | undefined) => void;
   allowLoad: boolean;
@@ -18,8 +19,8 @@ export interface IDataState<T> extends IParams {
   reload: () => void;
   handleChangePage(p: number): void;
   handleChangeRowsPerPage(rows: number): void;
-  handleChangeOrderBy(ob: string): void;
-  handleChangeFilter(ob: string, value: any): void;
+  handleChangeOrderBy(ob: PropType<T>): void;
+  handleChangeFilter(ob: PropType<T>, value: any): void;
   load(): void;
   // Vorerst noch nicht von außen änderbar
   // setLoading: React.Dispatch<React.SetStateAction<boolean>>;
@@ -35,7 +36,7 @@ export interface IPersistState {
 export interface IUseDataStateProps<T> {
   onLoadData: OnLoadData<T>;
   initialRowsPerPage?: number;
-  initialOrderBy?: string;
+  initialOrderBy?: PropType<T>;
   initialSort?: SortDirection;
   initialLoad?: boolean;
   initialPage?: number;
@@ -77,7 +78,7 @@ export function useDataState<T>(props: IUseDataStateProps<T>) {
   const [total, setTotal] = React.useState(
     (stateFromStore && stateFromStore.total) || 0
   );
-  const [orderBy, setOrderBy] = React.useState(
+  const [orderBy, setOrderBy] = React.useState<PropType<T> | undefined>(
     (stateFromStore && stateFromStore.orderBy) ||
       (props && props.initialOrderBy)
   );
@@ -111,7 +112,7 @@ export function useDataState<T>(props: IUseDataStateProps<T>) {
     setRowsPerPage(rows);
   }
 
-  function handleChangeOrderBy(ob: string) {
+  function handleChangeOrderBy(ob: PropType<T>) {
     let s: SortDirection | undefined;
 
     if (orderBy && orderBy === ob) {
@@ -122,7 +123,7 @@ export function useDataState<T>(props: IUseDataStateProps<T>) {
     setSort(s);
   }
 
-  function handleChangeFilter(ob: string, value: any) {
+  function handleChangeFilter(ob: PropType<T>, value: any) {
     setFilter({ ...filter, [ob]: value });
   }
 

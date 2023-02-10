@@ -13,7 +13,7 @@ export type IDataGridProps<T> = Omit<ITableMuiProps<T>, "data"> & {
     errorText?: string,
     reloadText?: string
   ) => React.ReactElement;
-  renderPaging?: (props: IRenderPagingProps) => React.ReactElement;
+  renderPaging?: (props: IRenderPagingProps<T>) => React.ReactElement;
 }
 export interface IDataGridWithExternalStateProps<T> extends IDataGridProps<T> {
   state?: IDataState<T>;
@@ -23,7 +23,7 @@ export interface IDataGridWithInternalStateProps<T>
   extends IDataGridProps<T>,
     IUseDataStateProps<T> {}
 
-export interface IRenderPagingProps extends IParams {
+export interface IRenderPagingProps<T> extends IParams<T> {
     
   backIconButtonText?: string;
   nextIconButtonText?: string;
