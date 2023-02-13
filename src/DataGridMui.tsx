@@ -12,10 +12,10 @@ import ErrorIcon from "@mui/icons-material/Error";
 import { ITableMuiProps } from "@dccs/react-table-mui/lib/Props";
 
 
-export function DataGridMui<T>(
-  props: IDataGridWithInternalStateProps<T> | IDataGridWithExternalStateProps<T>
+export function DataGridMui<T extends object, F extends object>(
+  props: IDataGridWithInternalStateProps<T, F> | IDataGridWithExternalStateProps<T, F>
 ) {
-  const internalState = useDataState<T>(props as IDataGridWithInternalStateProps<T>);
+  const internalState = useDataState<T, F>(props as IDataGridWithInternalStateProps<T, F>);
 
   const {
     rowsPerPage,
@@ -32,10 +32,10 @@ export function DataGridMui<T>(
     handleChangeRowsPerPage,
     handleChangePage,
     load,
-  } = (props as IDataGridWithExternalStateProps<T>).state || internalState;
+  } = (props as IDataGridWithExternalStateProps<T, F>).state || internalState;
 
   function renderTable() {
-    const ps: ITableMuiProps<T> = {
+    const ps: ITableMuiProps<T, F> = {
       data,
       colDef: props.colDef,
       orderBy,
