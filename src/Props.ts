@@ -4,7 +4,7 @@ import { IDataGridTexts } from "./IDataGridTexts";
 import { IParams } from "./IParams";
 
 // Take everything from the base TableMuiProps and modify it a little bit.
-export type IDataGridProps<T> = Omit<ITableMuiProps<T>, "data"> & {
+export type IDataGridProps<T extends object, F extends keyof T & object> = Omit<ITableMuiProps<T, F>, "data"> & {
   texts?: IDataGridTexts;
   disablePaging?: boolean;
   renderLoading?: () => React.ReactElement;
@@ -13,18 +13,17 @@ export type IDataGridProps<T> = Omit<ITableMuiProps<T>, "data"> & {
     errorText?: string,
     reloadText?: string
   ) => React.ReactElement;
-  renderPaging?: (props: IRenderPagingProps<T>) => React.ReactElement;
+  renderPaging?: (props: IRenderPagingProps<T, F>) => React.ReactElement;
 }
-export interface IDataGridWithExternalStateProps<T> extends IDataGridProps<T> {
-  state?: IDataState<T>;
+export interface IDataGridWithExternalStateProps<T extends object, F extends keyof T & object> extends IDataGridProps<T, F> {
+  state?: IDataState<T, F>;
 }
 
-export interface IDataGridWithInternalStateProps<T>
-  extends IDataGridProps<T>,
-    IUseDataStateProps<T> {}
+export interface IDataGridWithInternalStateProps<T extends object, F extends keyof T & object>
+  extends IDataGridProps<T, F>, IUseDataStateProps<T, F> {}
 
-export interface IRenderPagingProps<T> extends IParams<T> {
-    
+export interface IRenderPagingProps<T extends object, F extends keyof T & object> extends IParams<T, F> {
+
   backIconButtonText?: string;
   nextIconButtonText?: string;
   labelRowsPerPage?: string;
